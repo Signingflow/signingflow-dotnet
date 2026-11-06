@@ -25,6 +25,8 @@ jobs:
           dotnet test Signingflow.sln --nologo /p:CollectCoverage=true /p:Threshold=80 /p:ThresholdType=line%2Cbranch /p:ThresholdStat=total "/p:Include=[Signingflow]*" | tee test-out.txt
       - name: Publish coverage badge
         if: github.event_name == 'push' && github.ref == 'refs/heads/main' && matrix.dotnet == '8.0.x'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           percent=$(python3 - << 'PY'
           import re
