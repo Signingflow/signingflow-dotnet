@@ -1,5 +1,8 @@
 # signingflow
 
+[![CI](https://github.com/Signingflow/signingflow-dotnet/actions/workflows/ci.yml/badge.svg)](https://github.com/Signingflow/signingflow-dotnet/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
+
 .NET SDK for the Signingflow calls used to send a document, read envelope status, and receive webhooks.
 
 The package talks to `https://api.signingflow.com`. Keep the API key on your server. .NET 8 or newer is required. The SDK has no runtime dependencies.
