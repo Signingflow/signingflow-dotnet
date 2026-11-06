@@ -1,0 +1,19 @@
+name: SDK .NET
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet: ["8.0.x", "10.0.x"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ matrix.dotnet }}
+      - run: dotnet test Signingflow.sln --nologo /p:CollectCoverage=true /p:Threshold=80 /p:ThresholdType=line%2Cbranch /p:ThresholdStat=total "/p:Include=[Signingflow]*"

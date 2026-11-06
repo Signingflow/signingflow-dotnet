@@ -1,0 +1,9 @@
+bin/
+obj/
+nupkg/
+TestResults/
+coverage*.xml
+coverage*.json
+*.user
+.vs/
+*.DotSettings.user

@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RootNamespace>Signingflow</RootNamespace>
+    <AssemblyName>Signingflow</AssemblyName>
+    <Version>0.1.0</Version>
+    <Authors>Signingflow</Authors>
+    <Company>Signingflow</Company>
+    <Description>Signingflow API client for sending a document, reading envelope status, and verifying webhooks.</Description>
+    <PackageId>Signingflow</PackageId>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/Signingflow/signingflow-dotnet</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>false</IncludeSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="allowlist.json" LogicalName="allowlist.json" />
+    <InternalsVisibleTo Include="Signingflow.Tests" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>
