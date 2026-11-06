@@ -5,6 +5,9 @@ on:
     branches: [main]
   pull_request:
 
+permissions:
+  contents: write
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -16,4 +19,21 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ matrix.dotnet }}
-      - run: dotnet test Signingflow.sln --nologo /p:CollectCoverage=true /p:Threshold=80 /p:ThresholdType=line%2Cbranch /p:ThresholdStat=total "/p:Include=[Signingflow]*"
+      - name: Test
+        run: |
+          set -o pipefail
+          dotnet test Signingflow.sln --nologo /p:CollectCoverage=true /p:Threshold=80 /p:ThresholdType=line%2Cbranch /p:ThresholdStat=total "/p:Include=[Signingflow]*" | tee test-out.txt
+      - name: Publish coverage badge
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && matrix.dotnet == '8.0.x'
+        run: |
+          percent=$(python3 - << 'PY'
+          import re
+          import sys
+          text = open("test-out.txt", encoding="utf-8", errors="replace").read()
+          match = re.search(r"\|\s*Signingflow\s*\|\s*([0-9.]+)%", text)
+          if not match:
+              sys.exit("coverage summary was not found")
+          print(match.group(1))
+          PY
+          )
+          bash .github/publish-coverage-badge.sh "$percent"
