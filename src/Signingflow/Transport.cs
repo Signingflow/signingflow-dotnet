@@ -39,7 +39,7 @@ internal sealed class Transport : IDisposable
             SslOptions = new SslClientAuthenticationOptions
             {
                 EnabledSslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13,
-                CertificateRevocationCheckMode = X509RevocationMode.NoCheck,
+                CertificateRevocationCheckMode = X509RevocationMode.Online,
             },
         };
         if (options.CaBundle.Length > 0)
@@ -508,7 +508,11 @@ internal sealed class Transport : IDisposable
             return true;
         }
         using var custom = new X509Chain();
-        custom.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck;
+        custom.ChainPolicy.RevocationMode = X509RevocationMode.Online;
+        custom.ChainPolicy.VerificationFlags =
+            X509VerificationFlags.IgnoreEndRevocationUnknown |
+            X509VerificationFlags.IgnoreCertificateAuthorityRevocationUnknown |
+            X509VerificationFlags.IgnoreRootRevocationUnknown;
         custom.ChainPolicy.TrustMode = X509ChainTrustMode.CustomRootTrust;
         custom.ChainPolicy.CustomTrustStore.Add(_trust);
         return custom.Build(presented);
