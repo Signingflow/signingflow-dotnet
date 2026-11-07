@@ -36,13 +36,13 @@ jobs:
           match = re.search(r"\|\s*Signingflow\s*\|\s*([0-9.]+)%", text)
           if not match:
               sys.exit("coverage summary was not found")
-          open(".coverage-percent", "w").write(match.group(1))
+          open("coverage-percent.txt", "w").write(match.group(1))
           PY
       - uses: actions/upload-artifact@v4
         if: github.event_name == 'push' && github.ref == 'refs/heads/main' && matrix.dotnet == '8.0.x'
         with:
           name: coverage-percent
-          path: .coverage-percent
+          path: coverage-percent.txt
           retention-days: 1
 
   badge:
@@ -59,4 +59,4 @@ jobs:
           name: coverage-percent
       - env:
           GITHUB_TOKEN: ${{ github.token }}
-        run: bash .github/publish-coverage-badge.sh "$(cat .coverage-percent)"
+        run: bash .github/publish-coverage-badge.sh "$(cat coverage-percent.txt)"
